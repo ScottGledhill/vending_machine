@@ -8,4 +8,11 @@ describe VendingMachine do
       expect(vending_machine.total_inserted).to eq 0
     end
   end
+
+  context 'denominations' do
+    it 'accepts listed' do
+      vending_machine.insert_money(10)
+      expect(total_inserted).to eq 10
+    end
+  end
 end
