@@ -1,13 +1,19 @@
+require 'accepted_change_denominations'
+
 class VendingMachine
-  attr_reader :total_inserted
-  # attr_writer :total_inserted
-  ACCEPTED_DENOMINATIONS = [1,2,5,10,20,50,1,2]
+  attr_reader :total_inserted, :accepted_change
 
   def initialize
     @total_inserted = 0
+    @accepted_change = AcceptedChangeDenominations
   end
 
   def insert_money(value)
-    ACCEPTED_DENOMINATIONS.include?(value) ? @total_inserted += value : nil
+    if accepted_change.correct_denomination?(value) 
+      change_num = accepted_change.change_to_num(value)
+      @total_inserted += change_num
+    else
+      false
+    end
   end
 end
