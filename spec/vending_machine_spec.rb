@@ -23,6 +23,7 @@ describe VendingMachine do
     end
   end
 
+
   context 'on acceptable selection' do
     it 'changes product quantity' do
       vending_machine.insert_money('£1')
@@ -40,8 +41,13 @@ describe VendingMachine do
   context 'doesnt accept' do
     it 'incorrect selections' do
       vending_machine.insert_money('£1')
-      expect(vending_machine.select_product('dog')).to eq "unavailable selection"
+      expect(vending_machine.select_product('dog')).to eq 'unavailable selection'
       # expect {vending_machine.select_product('dog')}.to raise_error("unavailable selection")
+    end
+
+    it 'not enough money input' do
+      vending_machine.insert_money('10p')
+      expect(vending_machine.select_product('crisps')).to eq 'insert 40 more'
     end
   end
 end

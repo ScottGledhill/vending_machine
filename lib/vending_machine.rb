@@ -24,11 +24,18 @@ class VendingMachine
   def select_product(item)
     selected = product_list.products[item]
     if selected
-      selected[:price] < total_inserted ? @product_list.products[item][:quantity] -= 1 : 'mo mney pls bbz'
+      if selected[:price] < total_inserted
+        @product_list.products[item][:quantity] -= 1
+        calculate_change(selected)
+        @total_inserted = 0
+      else
+        amount_still_required = selected[:price] - @total_inserted
+        "insert #{amount_still_required} more"
+      end
     else
       'unavailable selection'
     end
-    # go into product list make sure it matches, if so check enough total inserted, 
+    # go into product list make sure it matches, if so check enough total inserted,
     # remove 1 from quantity, if < total inserted, return change, reset inserted to 0
   end
 
