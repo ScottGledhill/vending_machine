@@ -1,6 +1,11 @@
 class Product
-  attr_reader :name, :price
-  def initialize(name, price)
-    @name, @price = name, price
-  end
+  def initialize(products = {
+    'coke' => 80,
+    'lemonade' => 100,
+    'beer' => 300,
+    'crisps' => 50,
+    'apple' => 60,
+    'chocolate' => 90
+  })
+  end 
 end

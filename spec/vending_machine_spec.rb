@@ -9,10 +9,18 @@ describe VendingMachine do
     end
   end
 
-  context 'denominations' do
-    it 'accepts listed' do
+  context 'accepts input' do
+    it '10p' do
+      p vending_machine
       vending_machine.insert_money('10p')
       expect(vending_machine.total_inserted).to eq 10
+    end
+  end
+
+  context 'returns change' do
+    it 'if too much money for product' do
+      vending_machine.insert_money('£1')
+      expect(vending_machine.select_product('coke')).to eq '20p change'
     end
   end
 end
