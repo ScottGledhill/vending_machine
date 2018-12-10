@@ -11,7 +11,6 @@ describe VendingMachine do
 
   context 'accepts input' do
     it '10p' do
-      p vending_machine
       vending_machine.insert_money('10p')
       expect(vending_machine.total_inserted).to eq 10
     end
@@ -24,12 +23,13 @@ describe VendingMachine do
     end
   end
 
-  # context '' do
-  #   it 'if too much money for product' do
-  #     vending_machine.insert_money('£1')
-  #     expect(vending_machine.select_product('coke')).to eq '20p change'
-  #   end
-  # end
+  context 'changes quantity of product list' do
+    it 'on acceptable selection' do
+      vending_machine.insert_money('£1')
+      vending_machine.select_product('coke')
+      expect(vending_machine.product_list.products['coke'][:quantity]).to eq 4
+    end
+  end
 
   context 'doesnt accept' do
     it 'incorrect selections' do
