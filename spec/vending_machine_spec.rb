@@ -23,11 +23,17 @@ describe VendingMachine do
     end
   end
 
-  context 'changes quantity of product list' do
-    it 'on acceptable selection' do
+  context 'on acceptable selection' do
+    it 'changes product quantity' do
       vending_machine.insert_money('£1')
       vending_machine.select_product('coke')
       expect(vending_machine.product_list.products['coke'][:quantity]).to eq 4
+    end
+
+    it 'changes total inserted to 0' do
+      vending_machine.insert_money('£1')
+      vending_machine.select_product('coke')
+      expect(vending_machine.total_inserted).to eq 0
     end
   end
 
