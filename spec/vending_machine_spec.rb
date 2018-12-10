@@ -23,4 +23,19 @@ describe VendingMachine do
       expect(vending_machine.select_product('coke')).to eq '20p change'
     end
   end
+
+  # context '' do
+  #   it 'if too much money for product' do
+  #     vending_machine.insert_money('£1')
+  #     expect(vending_machine.select_product('coke')).to eq '20p change'
+  #   end
+  # end
+
+  context 'doesnt accept' do
+    it 'incorrect selections' do
+      vending_machine.insert_money('£1')
+      expect(vending_machine.select_product('dog')).to eq "unavailable selection"
+      # expect {vending_machine.select_product('dog')}.to raise_error("unavailable selection")
+    end
+  end
 end

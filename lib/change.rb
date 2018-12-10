@@ -1,4 +1,6 @@
 class Change
+  attr_reader :coins
+  
   def initialize(coins = {
     '1p' => 10,
     '2p' => 10,
@@ -9,5 +11,6 @@ class Change
     '£1' => 10,
     '£2' => 5
   })
+  @coins = coins
   end
 end
