@@ -44,17 +44,21 @@ class VendingMachine
     @return_change = []
     price = selected[:price] #80
     change_needed = total_inserted - price #120
-    
     sorted_coin_value = coins.coin_list.sort_by {|k,v| v[:value] }.reverse
     i = 0
-    while i < sorted_coin_value.length - 1 do 
-      if change_needed >= sorted_coin_value[i][1][:value] && change_needed > 0
-        p change_needed = change_needed - sorted_coin_value[i][1][:value]
-        @return_change << sorted_coin_value[i].first
-      end
-      i += 1
+    check_change(sorted_coin_value, change_needed, i)
+    @return_change
+  end
+
+  def check_change(sorted_coin_value, change_needed, i)
+    while change_needed >= sorted_coin_value[i][1][:value] do 
+      change_needed = change_needed - sorted_coin_value[i][1][:value]
+      @return_change << sorted_coin_value[i].first
     end
-    p @return_change
+    i += 1
+    if i < sorted_coin_value.length - 1
+      check_change(sorted_coin_value, change_needed, i)
+    end
   end
     # loop through check if largest coin denom can fit in selected, check again until it cant
     # loop through check if second largest, loop through until it cant
