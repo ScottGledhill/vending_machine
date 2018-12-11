@@ -45,7 +45,7 @@ describe VendingMachine do
     it 'changes product quantity' do
       vending_machine.insert_money('£1')
       vending_machine.select_product('coke')
-      expect(vending_machine.product_list.products['coke'][:quantity]).to eq 4
+      expect(vending_machine.product_list.products['coke'][:quantity]).to eq 1
     end
 
     it 'changes total inserted to 0' do
@@ -70,24 +70,14 @@ describe VendingMachine do
       expect(vending_machine.select_product('crisps')).to eq 'insert 40 more'
     end
 
-    # it 'not enough coins left' do
-    #   vending_machine.refill_coins(coins = 
-    #     { '1p' => { quantity: 0, value: 1 },
-    #       '10p' => { quantity: 2, value: 10 } })
-    #   expect(vending_machine.select_product('crisps')).to eq 'insert 40 more'
-    # end
-
-  #   it 'not enough product left' do
-  #     vending_machine.refill_products((products = {
-  #       'coke' => { price: 80, quantity: 0 },
-  #       'lemonade' => { price: 100, quantity: 5 },
-  #       'beer' => { price: 300, quantity: 10 },
-  #       'crisps' => { price: 50, quantity: 6 },
-  #       'apple' => { price: 60, quantity: 10 },
-  #       'chocolate' => { price: 90, quantity: 10 }
-  #     }))
-  #     expect{ vending_machine.select_product('coke') }.to raise_error('Unavailable selection')
-  #   end
+    it 'not enough product left' do
+      vending_machine.insert_money("£1")
+      vending_machine.select_product('coke')
+      vending_machine.insert_money("£1")
+      vending_machine.select_product('coke')
+      vending_machine.insert_money("£1")
+      expect{ vending_machine.select_product('coke') }.to raise_error('Unavailable selection')
+    end
   end
 
   context 'refill' do

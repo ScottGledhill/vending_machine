@@ -9,7 +9,7 @@ class CoinList
     '20p' => { quantity: 10, value: 20 },
     '50p' => { quantity: 10, value: 50 },
     '£1' => { quantity: 10, value: 100 },
-    '£2' => { quantity: 1, value: 200 }
+    '£2' => { quantity: 0, value: 200 }
   })
     @coins = coins
   end
