@@ -1,5 +1,5 @@
-require_relative 'product'
-require_relative 'coin'
+require_relative 'product_list'
+require_relative 'coin_list'
 
 class VendingMachine
   attr_reader :total_inserted, :product_list, :coin_list
@@ -7,8 +7,8 @@ class VendingMachine
 
   def initialize
     @total_inserted = 0
-    @product_list = Product.new
-    @coin_list = Coin.new
+    @product_list = ProductList.new
+    @coin_list = CoinList.new
   end
 
   def insert_money(value)
@@ -41,7 +41,7 @@ class VendingMachine
   end
 
   def amount_still_required(selected)
-    amount_still_required = selected[:price] - @total_inserted
+    amount_still_required = selected[:price] - total_inserted
     "insert #{amount_still_required} more"
   end
 
@@ -64,4 +64,9 @@ class VendingMachine
       find_neccessary_coins(sorted_coin_value, change_needed, i)
     end
   end
+
+  # def refill_vending_machine()
+  #   @product_list.refill
+  #   @coin_list.refill
+  # end
 end

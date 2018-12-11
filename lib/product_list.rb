@@ -1,4 +1,4 @@
-class Product
+class ProductList
   attr_reader :products
 
   def initialize(products = {
@@ -11,4 +11,8 @@ class Product
   })
   @products = products
   end
+
+  # def refill()
+  #   @products = 
+  # end
 end

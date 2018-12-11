@@ -1,4 +1,4 @@
-class Coin
+class CoinList
   attr_reader :coins
 
   def initialize(coins = {

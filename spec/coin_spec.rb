@@ -1,6 +1,6 @@
-require 'coin'
+require 'coin_list'
 
-describe Coin do
+describe CoinList do
   subject(:coin) { described_class.new }
 
   context 'possible coins' do
