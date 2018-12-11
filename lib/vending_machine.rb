@@ -12,7 +12,7 @@ class VendingMachine
   end
 
   def insert_money(coin)
-    if coin_list.valid_coin?(coin) 
+    if coin_list.valid_coin?(coin) && coin_list.coins[coin][:quantity] > 0
       change_from_sterling = coin_list.change_to_number(coin)
       @total_inserted += change_from_sterling
     else
@@ -21,8 +21,8 @@ class VendingMachine
   end
 
   def select_product(item)
-    selected = product_list.products[item]
-    if selected
+    p selected = product_list.products[item]
+    if selected && selected[:quantity] > 0
       vend_item(selected, item)
     else
       raise 'Unavailable selection'
