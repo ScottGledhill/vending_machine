@@ -30,6 +30,14 @@ describe VendingMachine do
     end
   end
 
+  context 'quantity changes' do
+    it 'when coin is given, coin quantity is reduced' do
+      selected = vending_machine.product_list.products['apple']
+      vending_machine.insert_money('£1')
+      expect(vending_machine.coin_list.coins['20p'][:quantity]).to eq 8
+    end
+  end
+
 
   context 'on acceptable selection' do
     it 'changes product quantity' do

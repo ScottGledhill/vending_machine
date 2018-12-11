@@ -1,5 +1,5 @@
 class Coins
-  attr_reader :coin_list
+  attr_reader :coins
   
   def initialize(coins = {
     '1p' => { quantity: 10, value: 1 },
@@ -11,6 +11,6 @@ class Coins
     '£1' => { quantity: 10, value: 100 },
     '£2' => { quantity: 1, value: 200 }
   })
-  @coin_list = coins
+  @coins = coins
   end
 end

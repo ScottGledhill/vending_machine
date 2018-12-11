@@ -3,14 +3,14 @@ require 'product'
 require 'coins'
 
 class VendingMachine
-  attr_reader :total_inserted, :accepted_change, :product_list, :coins
+  attr_reader :total_inserted, :accepted_change, :product_list, :coin_list
   attr_accessor :return_change
 
   def initialize
     @total_inserted = 0
     @accepted_change = AcceptedChangeDenominations
     @product_list = Product.new
-    @coins = Coins.new
+    @coin_list = Coins.new
   end
 
   def insert_money(value)
@@ -36,18 +36,15 @@ class VendingMachine
     else
       'unavailable selection'
     end
-    # go into product list make sure it matches, if so check enough total inserted,
-    # remove 1 from quantity, if < total inserted, return change, reset inserted to 0
   end
 
   def calculate_change(selected)
     @return_change = []
-    price = selected[:price] #80
-    change_needed = total_inserted - price #120
-    sorted_coin_value = coins.coin_list.sort_by {|k,v| v[:value] }.reverse
+    change_needed = total_inserted - selected[:price]
+    sorted_coin_value = coin_list.coins.sort_by {|k,v| v[:value] }.reverse
     i = 0
     check_change(sorted_coin_value, change_needed, i)
-    @return_change
+    return_change
   end
 
   def check_change(sorted_coin_value, change_needed, i)
@@ -60,8 +57,4 @@ class VendingMachine
       check_change(sorted_coin_value, change_needed, i)
     end
   end
-    # loop through check if largest coin denom can fit in selected, check again until it cant
-    # loop through check if second largest, loop through until it cant
-    # loop through check if third largest etc
-    # recursive change calc?
 end
