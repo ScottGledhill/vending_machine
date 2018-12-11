@@ -1,4 +1,4 @@
-class Coins
+class Coin
   attr_reader :coins
   
   def initialize(coins = {
@@ -11,6 +11,14 @@ class Coins
     '£1' => { quantity: 10, value: 100 },
     '£2' => { quantity: 1, value: 200 }
   })
-  @coins = coins
+    @coins = coins
+  end
+
+  def correct_denomination?(value)
+    coins.has_key?(value)
+  end
+
+  def change_to_num(value)
+    p coins[value][:value]
   end
 end

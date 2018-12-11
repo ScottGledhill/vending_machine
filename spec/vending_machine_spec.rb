@@ -20,13 +20,13 @@ describe VendingMachine do
     it 'if too much money for product' do
       selected = vending_machine.product_list.products['coke']
       vending_machine.insert_money('£2')
-      expect(vending_machine.calculate_change(selected)).to eq ['£1', '20p']
+      expect(vending_machine.calculate_change(selected)).to eq "['£1', '20p'] returned"
     end
 
     it 'returns multiple amounts of same coin if neccessary' do
       selected = vending_machine.product_list.products['apple']
       vending_machine.insert_money('£1')
-      expect(vending_machine.calculate_change(selected)).to eq ['20p', '20p']
+      expect(vending_machine.calculate_change(selected)).to eq "['20p', '20p'] returned"
     end
   end
 
@@ -34,10 +34,10 @@ describe VendingMachine do
     it 'when coin is given, coin quantity is reduced' do
       selected = vending_machine.product_list.products['apple']
       vending_machine.insert_money('£1')
+      vending_machine.calculate_change(selected)
       expect(vending_machine.coin_list.coins['20p'][:quantity]).to eq 8
     end
   end
-
 
   context 'on acceptable selection' do
     it 'changes product quantity' do

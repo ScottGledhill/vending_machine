@@ -1,6 +1,6 @@
 require 'accepted_change_denominations'
 require 'product'
-require 'coins'
+require 'coin'
 
 class VendingMachine
   attr_reader :total_inserted, :accepted_change, :product_list, :coin_list
@@ -10,15 +10,15 @@ class VendingMachine
     @total_inserted = 0
     @accepted_change = AcceptedChangeDenominations
     @product_list = Product.new
-    @coin_list = Coins.new
+    @coin_list = Coin.new
   end
 
   def insert_money(value)
-    if accepted_change.correct_denomination?(value) 
-      change_to_num = accepted_change.change_to_num(value)
+    if coin_list.correct_denomination?(value) 
+      change_to_num = coin_list.change_to_num(value)
       @total_inserted += change_to_num
     else
-      false
+      throw "error"
     end
   end
 
@@ -44,12 +44,13 @@ class VendingMachine
     sorted_coin_value = coin_list.coins.sort_by {|k,v| v[:value] }.reverse
     i = 0
     check_change(sorted_coin_value, change_needed, i)
-    return_change
+    "#{return_change} returned"
   end
 
   def check_change(sorted_coin_value, change_needed, i)
     while change_needed >= sorted_coin_value[i][1][:value] do 
       change_needed = change_needed - sorted_coin_value[i][1][:value]
+      sorted_coin_value[i][1][:quantity] -= 1
       @return_change << sorted_coin_value[i].first
     end
     i += 1
