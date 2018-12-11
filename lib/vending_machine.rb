@@ -1,5 +1,5 @@
-require 'product'
-require 'coin'
+require_relative 'product'
+require_relative 'coin'
 
 class VendingMachine
   attr_reader :total_inserted, :product_list, :coin_list
@@ -23,18 +23,26 @@ class VendingMachine
   def select_product(item)
     selected = product_list.products[item]
     if selected
-      if selected[:price] < total_inserted
-        @product_list.products[item][:quantity] -= 1
-        calculate_change(selected)
-        @total_inserted = 0
-        "#{item} vended, #{return_change.join} returned"
-      else
-        amount_still_required = selected[:price] - @total_inserted
-        "insert #{amount_still_required} more"
-      end
+      vend_item(selected, item)
     else
       raise 'Unavailable selection'
     end
+  end
+
+  def vend_item(selected, item)
+    if selected[:price] < total_inserted
+      @product_list.products[item][:quantity] -= 1
+      calculate_change(selected)
+      @total_inserted = 0
+      "#{item} vended, #{return_change.join} returned"
+    else
+      amount_still_required(selected)
+    end
+  end
+
+  def amount_still_required(selected)
+    amount_still_required = selected[:price] - @total_inserted
+    "insert #{amount_still_required} more"
   end
 
   def calculate_change(selected)
@@ -42,10 +50,10 @@ class VendingMachine
     change_needed = total_inserted - selected[:price]
     sorted_coin_value = coin_list.coins.sort_by {|k,v| v[:value] }.reverse
     i = 0
-    check_change(sorted_coin_value, change_needed, i)
+    find_neccessary_coins(sorted_coin_value, change_needed, i)
   end
 
-  def check_change(sorted_coin_value, change_needed, i)
+  def find_neccessary_coins(sorted_coin_value, change_needed, i)
     while change_needed >= sorted_coin_value[i][1][:value] do 
       change_needed = change_needed - sorted_coin_value[i][1][:value]
       sorted_coin_value[i][1][:quantity] -= 1
@@ -53,7 +61,7 @@ class VendingMachine
     end
     i += 1
     if i < sorted_coin_value.length - 1
-      check_change(sorted_coin_value, change_needed, i)
+      find_neccessary_coins(sorted_coin_value, change_needed, i)
     end
   end
 end

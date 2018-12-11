@@ -28,7 +28,7 @@ describe VendingMachine do
       selected = vending_machine.product_list.products['apple']
       vending_machine.insert_money('£1')
       vending_machine.calculate_change(selected)
-      expect(vending_machine.return_change).to eq ['20p', '20p']
+      expect(vending_machine.return_change).to eq ['20p','20p']
     end
   end
 
