@@ -1,4 +1,0 @@
-require_relative './product'
-require_relative './vending_machine'
-require_relative './coin'
-require_relative './accepted_change_denominations'

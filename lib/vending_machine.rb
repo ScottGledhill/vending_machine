@@ -1,14 +1,12 @@
-require 'accepted_change_denominations'
 require 'product'
 require 'coin'
 
 class VendingMachine
-  attr_reader :total_inserted, :accepted_change, :product_list, :coin_list
+  attr_reader :total_inserted, :product_list, :coin_list
   attr_accessor :return_change
 
   def initialize
     @total_inserted = 0
-    @accepted_change = AcceptedChangeDenominations
     @product_list = Product.new
     @coin_list = Coin.new
   end
@@ -18,7 +16,7 @@ class VendingMachine
       change_to_num = coin_list.change_to_num(value)
       @total_inserted += change_to_num
     else
-      throw "error"
+      raise 'Unacceptable coin denomination'
     end
   end
 
@@ -29,12 +27,13 @@ class VendingMachine
         @product_list.products[item][:quantity] -= 1
         calculate_change(selected)
         @total_inserted = 0
+        "#{item} vended, #{return_change.join} returned"
       else
         amount_still_required = selected[:price] - @total_inserted
         "insert #{amount_still_required} more"
       end
     else
-      'unavailable selection'
+      raise 'Unavailable selection'
     end
   end
 
@@ -44,7 +43,6 @@ class VendingMachine
     sorted_coin_value = coin_list.coins.sort_by {|k,v| v[:value] }.reverse
     i = 0
     check_change(sorted_coin_value, change_needed, i)
-    "#{return_change} returned"
   end
 
   def check_change(sorted_coin_value, change_needed, i)

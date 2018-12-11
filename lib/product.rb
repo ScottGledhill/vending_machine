@@ -1,6 +1,6 @@
 class Product
   attr_reader :products
-  
+
   def initialize(products = {
     'coke' => { price: 80, quantity: 5 },
     'lemonade' => { price: 100, quantity: 5 },

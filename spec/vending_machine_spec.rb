@@ -1,16 +1,16 @@
 require 'vending_machine'
 
 describe VendingMachine do
-  subject(:vending_machine) {described_class.new}
+  subject(:vending_machine) { described_class.new }
 
   context 'on creation' do
-    it 'initializes with coordinates at 0,0' do
+    it 'initializes with total inserted at 0' do
       expect(vending_machine.total_inserted).to eq 0
     end
   end
 
   context 'accepts input' do
-    it '10p' do
+    it 'of valid coins' do
       vending_machine.insert_money('10p')
       expect(vending_machine.total_inserted).to eq 10
     end
@@ -20,13 +20,15 @@ describe VendingMachine do
     it 'if too much money for product' do
       selected = vending_machine.product_list.products['coke']
       vending_machine.insert_money('£2')
-      expect(vending_machine.calculate_change(selected)).to eq "['£1', '20p'] returned"
+      vending_machine.calculate_change(selected)
+      expect(vending_machine.return_change).to eq ['£1', '20p']
     end
 
     it 'returns multiple amounts of same coin if neccessary' do
       selected = vending_machine.product_list.products['apple']
       vending_machine.insert_money('£1')
-      expect(vending_machine.calculate_change(selected)).to eq "['20p', '20p'] returned"
+      vending_machine.calculate_change(selected)
+      expect(vending_machine.return_change).to eq ['20p', '20p']
     end
   end
 
@@ -53,11 +55,14 @@ describe VendingMachine do
     end
   end
 
-  context 'doesnt accept' do
-    it 'incorrect selections' do
+  context 'incorrect selections' do
+    it 'product' do
       vending_machine.insert_money('£1')
-      expect(vending_machine.select_product('dog')).to eq 'unavailable selection'
-      # expect {vending_machine.select_product('dog')}.to raise_error("unavailable selection")
+      expect { vending_machine.select_product('dog') }.to raise_error('Unavailable selection')
+    end
+
+    it 'coin denominations' do
+      expect { vending_machine.insert_money('99') }.to raise_error("Unacceptable coin denomination")
     end
 
     it 'not enough money input' do

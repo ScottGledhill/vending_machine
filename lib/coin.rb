@@ -1,6 +1,6 @@
 class Coin
   attr_reader :coins
-  
+
   def initialize(coins = {
     '1p' => { quantity: 10, value: 1 },
     '2p' => { quantity: 10, value: 2 },
@@ -19,6 +19,6 @@ class Coin
   end
 
   def change_to_num(value)
-    p coins[value][:value]
+    coins[value][:value]
   end
 end
