@@ -14,11 +14,11 @@ class CoinList
     @coins = coins
   end
 
-  def correct_denomination?(value)
-    coins.has_key?(value)
+  def valid_coin?(coin)
+    coins.has_key?(coin)
   end
 
-  def change_to_num(value)
+  def change_to_number(value)
     coins[value][:value]
   end
 end

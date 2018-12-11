@@ -2,8 +2,8 @@ require_relative 'product_list'
 require_relative 'coin_list'
 
 class VendingMachine
-  attr_reader :total_inserted, :product_list, :coin_list
-  attr_accessor :return_change
+  attr_reader :total_inserted
+  attr_accessor :return_change, :product_list, :coin_list
 
   def initialize
     @total_inserted = 0
@@ -11,10 +11,10 @@ class VendingMachine
     @coin_list = CoinList.new
   end
 
-  def insert_money(value)
-    if coin_list.correct_denomination?(value) 
-      change_to_num = coin_list.change_to_num(value)
-      @total_inserted += change_to_num
+  def insert_money(coin)
+    if coin_list.valid_coin?(coin) 
+      change_from_sterling = coin_list.change_to_number(coin)
+      @total_inserted += change_from_sterling
     else
       raise 'Unacceptable coin denomination'
     end
@@ -33,11 +33,15 @@ class VendingMachine
     if selected[:price] < total_inserted
       @product_list.products[item][:quantity] -= 1
       calculate_change(selected)
-      @total_inserted = 0
+      clear_balance
       "#{item} vended, #{return_change.join} returned"
     else
       amount_still_required(selected)
     end
+  end
+
+  def clear_balance
+    @total_inserted = 0
   end
 
   def amount_still_required(selected)
@@ -49,19 +53,19 @@ class VendingMachine
     @return_change = []
     change_needed = total_inserted - selected[:price]
     sorted_coin_value = coin_list.coins.sort_by {|k,v| v[:value] }.reverse
-    i = 0
-    find_neccessary_coins(sorted_coin_value, change_needed, i)
+    counter = 0
+    find_neccessary_coins(sorted_coin_value, change_needed, counter)
   end
 
-  def find_neccessary_coins(sorted_coin_value, change_needed, i)
-    while change_needed >= sorted_coin_value[i][1][:value] do 
-      change_needed = change_needed - sorted_coin_value[i][1][:value]
-      sorted_coin_value[i][1][:quantity] -= 1
-      @return_change << sorted_coin_value[i].first
+  def find_neccessary_coins(sorted_coin_value, change_needed, counter)
+    while change_needed >= sorted_coin_value[counter][1][:value] do 
+      change_needed = change_needed - sorted_coin_value[counter][1][:value]
+      sorted_coin_value[counter][1][:quantity] -= 1
+      @return_change << sorted_coin_value[counter].first
     end
-    i += 1
-    if i < sorted_coin_value.length - 1
-      find_neccessary_coins(sorted_coin_value, change_needed, i)
+    counter += 1
+    if counter < sorted_coin_value.length - 1
+      find_neccessary_coins(sorted_coin_value, change_needed, counter)
     end
   end
 
