@@ -11,8 +11,4 @@ class ProductList
   })
   @products = products
   end
-
-  # def refill()
-  #   @products = 
-  # end
 end

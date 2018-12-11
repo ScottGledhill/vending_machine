@@ -65,8 +65,11 @@ class VendingMachine
     end
   end
 
-  # def refill_vending_machine()
-  #   @product_list.refill
-  #   @coin_list.refill
-  # end
+  def refill_products(product_list)
+    @product_list = product_list
+  end
+
+  def refill_coins(coin_list)
+    @coin_list = coin_list
+  end
 end
