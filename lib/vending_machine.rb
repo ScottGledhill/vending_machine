@@ -1,15 +1,16 @@
 require 'accepted_change_denominations'
 require 'product'
-require 'change'
+require 'coins'
 
 class VendingMachine
-  attr_reader :total_inserted, :accepted_change, :product_list, :change 
+  attr_reader :total_inserted, :accepted_change, :product_list, :coins
+  attr_accessor :return_change
 
   def initialize
     @total_inserted = 0
     @accepted_change = AcceptedChangeDenominations
     @product_list = Product.new
-    @change = Change.new
+    @coins = Coins.new
   end
 
   def insert_money(value)
@@ -40,6 +41,23 @@ class VendingMachine
   end
 
   def calculate_change(selected)
-    # recursive change calc?
+    @return_change = []
+    price = selected[:price] #80
+    change_needed = total_inserted - price #120
+    
+    sorted_coin_value = coins.coin_list.sort_by {|k,v| v[:value] }.reverse
+    i = 0
+    while i < sorted_coin_value.length - 1 do 
+      if change_needed >= sorted_coin_value[i][1][:value] && change_needed > 0
+        p change_needed = change_needed - sorted_coin_value[i][1][:value]
+        @return_change << sorted_coin_value[i].first
+      end
+      i += 1
+    end
+    p @return_change
   end
+    # loop through check if largest coin denom can fit in selected, check again until it cant
+    # loop through check if second largest, loop through until it cant
+    # loop through check if third largest etc
+    # recursive change calc?
 end

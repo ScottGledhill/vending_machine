@@ -18,8 +18,9 @@ describe VendingMachine do
 
   context 'returns change' do
     it 'if too much money for product' do
-      vending_machine.insert_money('£1')
-      expect(vending_machine.select_product('coke')).to eq '20p change'
+      selected = vending_machine.product_list.products['coke']
+      vending_machine.insert_money('£2')
+      expect(vending_machine.calculate_change(selected)).to eq ['£1', "20p"]
     end
   end
 
