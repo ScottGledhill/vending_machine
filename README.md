@@ -1,16 +1,22 @@
+# Vending Machine
+
+# Installation 
+
+- Clone the repo at git@github.com:ScottGledhill/vending_machine.git
 - Install/download Ruby 'https://www.ruby-lang.org/en/downloads/'
 - install rspec, using 'gem install rspec'
 - install bundler using 'gem install bundler'
 - 'bundle install' 
 
-to run tests use command 'rspec' in root folder
+To run tests use command 'rspec' in root folder
 
-to use program:
+To use program:
 
-go into lib folder
-open IRB by typing 'irb'
+CD into lib folder
+Open IRB by typing 'irb'
 
 -  require_relative 'vending_machine'
+
 -  vending_machine = VendingMachine.new
 -  vending_machine.insert_money("20p")
 -  vending_machine.insert_money("£1")
@@ -33,3 +39,6 @@ open IRB by typing 'irb'
         '£1' => { quantity: 7, value: 100 },
         '£2' => { quantity: 17, value: 200 }
       })
+      
+      -------------
+[Scott Gledhill](https://github.com/ScottGledhill)
