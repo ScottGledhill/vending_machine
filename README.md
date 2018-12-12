@@ -14,7 +14,7 @@ open IRB by typing 'irb'
 -  vending_machine = VendingMachine.new
 -  vending_machine.insert_money("20p")
 -  vending_machine.insert_money("£1")
--  vending_machine.select_item("coke")
+-  vending_machine.select_product("coke")
 -  vending_machine.refill_products({
         'baseball bat' => { price: 85, quantity: 1 },
         'car' => { price: 1000, quantity: 1 },

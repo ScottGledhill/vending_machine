@@ -34,7 +34,7 @@ class VendingMachine
       @product_list.products[item][:quantity] -= 1
       calculate_change(selected)
       clear_balance
-      "#{item} vended, #{return_change.join} returned"
+      "#{item} vended, #{return_change.join(" ")} returned"
     else
       amount_still_required(selected)
     end
@@ -58,7 +58,8 @@ class VendingMachine
   end
 
   def find_neccessary_coins(sorted_coin_value, change_needed, counter)
-    while change_needed >= sorted_coin_value[counter][1][:value] do 
+    while change_needed >= sorted_coin_value[counter][1][:value] && 
+      sorted_coin_value[counter][1][:quantity] > 0 do 
       change_needed = change_needed - sorted_coin_value[counter][1][:value]
       sorted_coin_value[counter][1][:quantity] -= 1
       @return_change << sorted_coin_value[counter].first
