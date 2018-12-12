@@ -2,7 +2,7 @@
 
 # Installation 
 
-- Clone the repo at git@github.com:ScottGledhill/vending_machine.git
+- Clone the repo at https://github.com/ScottGledhill/vending_machine
 - Install/download Ruby 'https://www.ruby-lang.org/en/downloads/'
 - install rspec, using 'gem install rspec'
 - install bundler using 'gem install bundler'
